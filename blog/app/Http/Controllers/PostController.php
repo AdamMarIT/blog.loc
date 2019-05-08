@@ -35,13 +35,14 @@ class PostController extends Controller
     }
     public function add(Request $request) {
     	if ($request->isMethod('post')) {
-    		Post::insert(array(
-    			//'user_id'  => $request->user()->id,
-    			'user_id'  => Auth::id(),
-			    'title'  => $request->title,
-			    'description' => $request->description,
-			    'content'   => $request->content
-			));	
+    		$post = new Post;
+            //'user_id'  => $request->user()->id,
+            $post->user_id = Auth::id();
+            $post->title = $request->title;
+            $post->description = $request->description;
+            $post->content = $request->content;
+            $post->save();    
+        	
     	} 
     	return view('posts.addpost');
     }
