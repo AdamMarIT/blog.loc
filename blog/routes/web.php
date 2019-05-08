@@ -13,8 +13,9 @@
 
 Route::get('/', 'PostController@index')->name('home');
 Route::get('/article/{id}', 'PostController@article');
-Route::post ('/add_post', 'PostController@add');
-Route::get('/add_post', 'PostController@add');
+Route::post ('/add_post', 'PostController@store')->middleware('auth');
+Route::get('/add_post', 'PostController@add')->middleware('auth');
+Route::post('/comment/{id}', 'PostController@storeComment')->middleware('auth');
 
 Auth::routes();
 

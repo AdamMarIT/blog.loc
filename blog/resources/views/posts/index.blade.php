@@ -18,7 +18,6 @@
                         <h3><a href="/article/{{ $post->id }}"> {{ $post->title }} </a></h3>
                         <h6> {{ $post->description }} </h6>
                         <p> {{ $post->name }} &nbsp;{{ date('d-m-Y', strtotime($post->created_at)) }}</p>
-
                         <hr>
                     @endforeach
                   
