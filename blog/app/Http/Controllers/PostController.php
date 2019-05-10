@@ -11,7 +11,7 @@ use App\Comment;
 
 class PostController extends Controller
 {
-    public function index() {
+    public function index() { 
     	$posts = DB::table('users')
     	    ->join('posts', 'posts.user_id', '=', 'users.id')
     	    ->orderBy('posts.id', 'desc')
@@ -36,7 +36,6 @@ class PostController extends Controller
     public function add(Request $request) {
     	if ($request->isMethod('post')) {
     		$post = new Post;
-            //'user_id'  => $request->user()->id,
             $post->user_id = Auth::id();
             $post->title = $request->title;
             $post->description = $request->description;
@@ -59,18 +58,18 @@ class PostController extends Controller
 
     }
 
-     public function storeComment(Request $request)
+     public function storeComment(Request $request,$id)
     {
-        // добываем id поста, к которому пишем коммент
-        $url = $request->path();
-        $id = explode( '/', $url);
-        //проверка вводимых комментов
-        $validator = $this->validate($request, [
-        'comment' => 'required|max:255'
-   		 ]);
-        $comment = new Comment; 
-        $comment->add($request,$id[1]);
-        return \Redirect::to("/article/$id[1]");
-
+        if ($request->isMethod('post')) {
+            //проверка вводимых комментов
+            $validator = $this->validate($request, [
+            'comment' => 'required|max:255'
+       		 ]);
+            $commentBody = strip_tags($request->comment);
+            $comment = new Comment; 
+            $comment->add($commentBody,$id);
+            return \Redirect::to("/article/$id");
+        }
     }
+   
 }

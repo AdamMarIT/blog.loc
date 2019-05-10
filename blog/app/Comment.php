@@ -10,16 +10,23 @@ use App\User;
 
 class Comment extends Model
 {
-     public function add(Request $request,$postId) {
-    	if ($request->isMethod('post')) {
+    public function add($commentBody,$postId) {
     		$comment = new Comment;
-           	//'user_id'  => $request->user()->id,
     		$comment->user_id = Auth::id();
     		$comment->post_id = $postId;
-			$comment->comment = strip_tags($request->comment);
-			$comment->save();    
-				
-    	} 
-    	
+			$comment->comment = $commentBody;
+			$comment->save();    		
+    	 
+    }
+    public function editComment($comment, $id) {
+            $editComment = self::find($id);
+            if ($editComment->comment != $comment){
+                $editComment->comment = $comment;
+                $editComment->save(); 
+            }               
+    }
+    public function deleteComment($id) { 
+        $post = self::find($id);
+        $post->delete();
     }
 }
