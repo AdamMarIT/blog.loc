@@ -27,4 +27,4 @@ Route::group(['middleware' => ['auth','admin']], function () {
   Route::post('/delete_comment/{id}', 'AdminController@deleteComment');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
